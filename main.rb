@@ -11,15 +11,6 @@ class Main
 	@listJogos=Array.new
 	@listEquipas=Array.new
 
-	puts "Registe-se no sistema:"
-	puts "Nome:"
-	nome=gets.chomp
-	puts "Email:"
-	mail=gets.chomp
-	puts "Password:" 
-	pass=gets.chomp
-	user=User.new(nome,pass, mail, 0)
-	puts user.getNome
 	def registaUser()
 		puts "Registe-se no sistema:"
 		puts "Nome:"
