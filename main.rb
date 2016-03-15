@@ -91,5 +91,47 @@ class Main
 			menuBookie()
 		end
 	end
+	def menuUserLog()
+		puts "1)Login"
+		puts "2)Registar"
+		i=gets.chomp
+		if i==1
+			f=loginUser()
+			if f==false
+				puts "login errado! Tente novamente"
+				menuUserLog()
+			else 
+				menuUser()
+			end
+		elsif i==2
+			registaUser()
+			menuUserLog
+		else
+			menuUserLog()
+		end
+	end
 	
+	def menuUser()
+		puts "Menu"
+		puts "1)Ver Jogos"
+		puts "2)Fazer Aposta"
+		puts "3)Ver Apostas"
+		puts "4)Ver Saldo"
+		puts "0)sair"
+		
+		i=gets.chomp
+		if i==1
+			listarJogos()
+		elsif i==2
+			makeBet()
+		elsif i==3
+			listarApostas()
+		elsif i==4
+			verSaldo()
+		elsif i==0
+			return 0
+		else
+			menuUser()
+		end
+	end
 end
