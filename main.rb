@@ -2,6 +2,7 @@ require_relative 'user.rb'
 require_relative 'bookie.rb'
 require_relative 'team.rb'
 require_relative 'game.rb'
+require 'date'
 
 class Main
 
@@ -10,7 +11,32 @@ class Main
 	@listAposta=Array.new
 	@listJogos=Array.new
 	@listEquipas=Array.new
-
+	
+	def loader()
+		##User
+		listUser.push(User.new("A","12345","A@A",100))
+		listUser.push(User.new("B","12345","B@A",500))
+		listUser.push(User.new("C","12345","C@A",50))
+		
+		##Bookie
+		listBookie.push(Bookie.new("A","12345","A@A"))
+		listBookie.push(Bookie.new("A","12345","A@A"))
+		
+		##Equipa
+		listEquipas.push(Team.new("FCP"))
+		listEquipas.push(Team.new("FCB"))
+		listEquipas.push(Team.new("SPURS"))
+		listEquipas.push(Team.new("BVB"))
+		listEquipas.push(Team.new("PSG"))
+		listEquipas.push(Team.new("JUV"))
+		
+		##Jogos
+		listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),listEquipas.at(0),listEquipas.at(1),2,3,1,listBookie.at(0)))
+		listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),listEquipas.at(2),listEquipas.at(3),2,3,1,listBookie.at(1)))
+		listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),listEquipas.at(4),listEquipas.at(5),2,3,1,listBookie.at(0)))	
+	
+	end
+	
 	def registaUser()
 		puts "Registe-se no sistema:"
 		puts "Nome:"
