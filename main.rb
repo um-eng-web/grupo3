@@ -2,7 +2,7 @@ require_relative 'user.rb'
 require_relative 'bookie.rb'
 require_relative 'team.rb'
 require_relative 'game.rb'
-
+require_relative 'bet.rb'
 class Main
 
 	@listUser=Array.new
@@ -134,4 +134,21 @@ class Main
 			menuUser()
 		end
 	end
+	def bookieOrUser()
+		puts "Bem vindo"
+		puts "1)Bookie"
+		puts "2)User"
+		puts "0)Sair"
+		id=gets.chomp
+		if id == 1
+			menuBookieLog()
+		elsif id == 2
+			menuUser()
+		elsif id == 0
+			return 0
+		else 
+			bookieOrUser()
+		end
+	end
+	
 end
