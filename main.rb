@@ -1,53 +1,33 @@
-require_relative 'user.rb'
-require_relative 'bookie.rb'
-require_relative 'team.rb'
-require_relative 'game.rb'
-require_relative 'bet.rb'
-require 'date'
-class Main
-
 	def initialize()
 		
-		@listUser=Array.new
-		@listBookie=Array.new
-		@listJogos=Array.new
-		@listEquipas=Array.new
+		$listUser=Array.new
+		$listBookie=Array.new
+		$listJogos=Array.new
+		$listEquipas=Array.new
 		@utilizador
 	
 		##User
-		@listUser.push(User.new("A","12345","A@A",100))
-		@listUser.push(User.new("B","12345","B@A",500))
-		@listUser.push(User.new("C","12345","C@A",50))
+		$listUser.push(User.new("A","12345","A@A",100))
+		$listUser.push(User.new("B","12345","B@A",500))
+		$listUser.push(User.new("C","12345","C@A",50))
 		
 		##Bookie
-		@listBookie.push(Bookie.new("A","12345","A@A"))
-		@listBookie.push(Bookie.new("A","12345","A@A"))
+		$listBookie.push(Bookie.new("A","12345","A@A"))
+		$listBookie.push(Bookie.new("B","12345","A@A"))
 		
 		##Equipa
-		@listEquipas.push(Team.new("FCP"))
-		@listEquipas.push(Team.new("FCB"))
-		@listEquipas.push(Team.new("SPURS"))
-		@listEquipas.push(Team.new("BVB"))
-		@listEquipas.push(Team.new("PSG"))
-		@listEquipas.push(Team.new("JUV"))
+		$listEquipas.push(Team.new("FCP"))
+		$listEquipas.push(Team.new("FCB"))
+		$listEquipas.push(Team.new("SPURS"))
+		$listEquipas.push(Team.new("BVB"))
+		$listEquipas.push(Team.new("PSG"))
+		$listEquipas.push(Team.new("JUV"))
 		
 		##Jogos
-		@listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),@listEquipas.at(0),@listEquipas.at(1),2,3,1,@listBookie.at(0)))
-		@listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),@listEquipas.at(2),@listEquipas.at(3),2,3,1,@listBookie.at(1)))
-		@listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),@listEquipas.at(4),@listEquipas.at(5),2,3,1,@listBookie.at(0)))	
-	
-	end
-	
-	def registaUser()
-		puts "Registe-se no sistema:"
-		puts "Nome:"
-		nome=gets.chomp
-		puts "Email:"
-		mail=gets.chomp
-		puts "Password:" 
-		pass=gets.chomp
-		user=User.new(nome,pass, mail, 0)
-		@listUser.push(user)
+		$listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),$listEquipas.at(0),$listEquipas.at(1),2,3,1,$listBookie.at(0)))
+		$listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),$listEquipas.at(2),$listEquipas.at(3),2,3,1,$listBookie.at(1)))
+		$listJogos.push(Game.new(DateTime.new(2016,4,1,20,45,00),$listEquipas.at(4),$listEquipas.at(5),2,3,1,$listBookie.at(0)))	
+		
 	end
 	
 	def loginUser()
@@ -58,34 +38,16 @@ class Main
 		pass=gets.chomp
 		i=0
 		begin
-			user=@listUser.at(i)
+			user=$listUser.at(i)
 			if user.getNome == nome && user.getPass ==pass
 				@utilizador=user
 				return true
 			end
 			i+=1
-		end while i<@listUser.size
+		end while i<$listUser.size
 		return false
 	end
 	
-	def loginBookie()
-		puts "Login:"
-		puts "Username:"
-		nome=gets.chomp
-		puts "Password:"
-		pass=gets.chomp
-		i=0
-		begin
-			bookie=@listBookie.at(i)
-			if bookie.getNome == nome && bookie.getPass ==pass
-				@utilizador=bookie
-				return true
-			end
-			i+=1
-		end while i<@listBookie.size
-		return false
-	end
-		
 	def menuBookieLog()
 		f=loginBookie()
 		if f==false
@@ -96,53 +58,41 @@ class Main
 		end
 	end
 	
-	def menuBookie()
-		puts "Menu"
-		puts "1)Ver Jogos"
-		puts "2)Seguir Jogo"
-		puts "3)Criar Jogo"
-		puts "4)Terminar Jogo"
-		puts "0)Sair"
-		
-		i=gets.to_i
-		if i==1
-			listarJogos()
-			menuBookie()
-		elsif i==2
-			seguirJogo()
-			menuBookie()
-		elsif i==3
-			criarJogo()
-			menuBookie()
-		elsif i==4
-			terminarJogo()
-			menuBookie()
-		elsif i==0
-			return 0
-		else
-			menuBookie()
-		end
-	end
-	
-	def seguirJogo()
+	def changeOdd()
 		t=true
 		i=0
 		begin
-			listarJogos()
-			puts "Escolha o jogo a seguir:"
+			begin
+				if $listJogos.at(i).getData()>DateTime.now && $listJogos.at(i).getSeguidores.at(0)==@utilizador
+					puts $listJogos.at(i)
+				end
+				i+=1
+			end while i<$listJogos.size
+			puts "Escolha o jogo a terminar:"
 			x=gets.to_i
 			i=0
 			begin
-				if @listJogos.at(i).getData()>DateTime.now && @listJogos.at(i).getNumero==x
+				if $listJogos.at(i).getData()>DateTime.now && $listJogos.at(i).getNumero==x && $listJogos.at(i).getSeguidores.at(0)==@utilizador
 					t=false
 					break
 				end
 				i+=1
-			end while i<@listJogos.size
+			end while i<$listJogos.size
 		end while t
-		lista=@utilizador.getAdministracao
-		lista.push(@listJogos.at(i))
-		@utilizador.setAdministracao(lista)
+		
+		puts "Quais sao as odds:"
+		puts "Odd Casa"
+		oddc=gets.to_f
+		puts "Odd Fora"
+		oddf=gets.to_f
+		puts "Odd Empate"
+		odde=gets.to_f
+		
+		$listJogos.at(i).setOddc(oddc)
+		$listJogos.at(i).setOddf(oddf)
+		$listJogos.at(i).setOdde(odde)
+		
+		$listJogos.at(i).changeOdd
 	end
 	
 	def criarJogo()
@@ -151,7 +101,7 @@ class Main
 			puts "Equipa da Casa: "
 			listarEquipas()
 			ec=gets.to_i
-		end while ec<0 || ec>@listEquipas.size-1
+		end while ec<0 || ec>$listEquipas.size-1
 		puts "Odd Casa: "
 		oc=gets.to_f
 		puts "Odd Empate:"
@@ -161,22 +111,11 @@ class Main
 			puts "Equipa de Fora: "
 			listarEquipas()
 			ef=gets.to_i
-		end while ef<0 || ef>@listEquipas.size-1 || ef==ec
+		end while ef<0 || ef>$listEquipas.size-1 || ef==ec
 		puts "Odd Fora: "
 		of=gets.to_f
-		novoJogo=Game.new(DateTime.now,@listEquipas.at(ec),@listEquipas.at(ef),oc,of,oe,@utilizador)
-		@listJogos.push(novoJogo)
-		lista=@utilizador.getAdministracao
-		lista.push(@listJogos.last)
-		@utilizador.setAdministracao(lista)
-	end
-	
-	def listarEquipas()
-		i=0
-		begin
-			puts i.to_s + " - " + @listEquipas.at(i).to_s
-			i+=1
-		end while i<@listEquipas.size
+		novoJogo=Game.new(DateTime.now,$listEquipas.at(ec),$listEquipas.at(ef),oc,of,oe,@utilizador)
+		$listJogos.push(novoJogo)
 	end
 	
 	def terminarJogo()
@@ -184,43 +123,24 @@ class Main
 		i=0
 		begin
 			begin
-				if @listJogos.at(i).getData()>DateTime.now && @listJogos.at(i).getCriador==@utilizador
-					puts @listJogos.at(i)
+				if $listJogos.at(i).getData()>DateTime.now && $listJogos.at(i).getSeguidores.at(0)==@utilizador
+					puts $listJogos.at(i)
 				end
 				i+=1
-			end while i<@listJogos.size
+			end while i<$listJogos.size
 			puts "Escolha o jogo a terminar:"
 			x=gets.to_i
 			i=0
 			begin
-				if @listJogos.at(i).getData()>DateTime.now && @listJogos.at(i).getNumero==x && @listJogos.at(i).getCriador==@utilizador
+				if $listJogos.at(i).getData()>DateTime.now && $listJogos.at(i).getNumero==x && $listJogos.at(i).getSeguidores.at(0)==@utilizador
 					t=false
 					break
 				end
 				i+=1
-			end while i<@listJogos.size
+			end while i<$listJogos.size
 		end while t
-		@listJogos.at(i).setData(DateTime.now)
-	end
-	
-	def menuUserLog()
-		puts "1)Login"
-		puts "2)Registar"
-		i=gets.to_i
-		if i==1
-			f=loginUser()
-			if f==false
-				puts "login errado! Tente novamente"
-				menuUserLog()
-			else 
-				menuUser()
-			end
-		elsif i==2
-			registaUser()
-			menuUserLog
-		else
-			menuUserLog()
-		end
+		$listJogos.at(i).setData(DateTime.now)
+		$listJogos.at(i).terminarJogo
 	end
 	
 	def menuUser()
@@ -255,26 +175,6 @@ class Main
 		end
 	end
 	
-	def bookieOrUser()
-		puts "Bem vindo"
-		puts "1)Bookie"
-		puts "2)User"
-		puts "0)Sair"
-		id=gets.to_i
-		
-		if id == 1
-			menuBookieLog()
-		elsif id == 2
-			menuUserLog()
-		elsif id == 0
-			return 0
-		else 
-			bookieOrUser()
-		end
-	end
-	
-	end
-
 	def makeBet()
 		t=true
 		i=0
@@ -283,12 +183,12 @@ class Main
 			puts "Escolha o jogo a apostar:"
 			x=gets.to_i
 			begin
-				if @listJogos.at(i).getData()>DateTime.now && @listJogos.at(i).getNumero==x
+				if $listJogos.at(i).getData()>DateTime.now && $listJogos.at(i).getNumero==x
 					t=false
 					break
 				end
 				i+=1
-			end while i<@listJogos.size
+			end while i<$listJogos.size
 		end while t
 		a=0
 		begin
@@ -306,16 +206,12 @@ class Main
 		
 		@utilizador.setValor(@utilizador.getValor-val)
 		lista=@utilizador.getApostas
-		lista.push(Bet.new(@listJogos.at(i),a,val,DateTime.now))
+		lista.push(Bet.new($listJogos.at(i),a,val,DateTime.now))
 		@utilizador.setApostas(lista)
-	end
+		jogo=$listJogos.at(i).getSeguidores
+		jogo.push(@utilizador)
+		$listJogos.at(i).setSeguidores(jogo)
 	
-	def verSaldo()
-		puts @utilizador.getValor
-	end
-	
-	def verSaldo()
-		puts "Saldo: "+@utilizador.getValor.to_s
 	end
 	
 	def carregarSaldo()
@@ -324,24 +220,13 @@ class Main
 		@utilizador.setValor(@utilizador.getValor+i)
 	end
 	
-		def listarApostas()
-		list=@utilizador.getApostas
+	def listarJogos()
 		i=0
 		begin
-			puts list.at(i)
-			i+=1
-		end while i<list.size
-	end
-	
-		def listarJogos()
-		i=0
-		begin
-			if @listJogos.at(i).getData()>DateTime.now
-				puts @listJogos.at(i)
+			if $listJogos.at(i).getData()>DateTime.now
+				puts $listJogos.at(i)
 			end
 			i+=1
-		end while i<@listJogos.size
+		end while i<$listJogos.size
 	end
 
-	m=Main.new
-	m.bookieOrUser()
