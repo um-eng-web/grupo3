@@ -1,5 +1,8 @@
-class Game
+require_relative 'notifier.rb'
+require 'observer'
 
+class Game
+	include Observable
 	@@count=0
 	def initialize(data,casa,fora,oddc,oddf,odde,criador)
 		@numero=@@count
@@ -9,8 +12,10 @@ class Game
 		@oddc=oddc
 		@odde=odde
 		@oddf=oddf
-		@criador=criador
+		@seguidores=Array.new
+		@seguidores.push(criador)
 		@@count+=1
+		add_observer(Notifier.new);
 	end
 	
 	#GETS
@@ -19,6 +24,7 @@ class Game
 	end
 	
 	def getData
+	
 		@data
 	end
 	
@@ -42,13 +48,14 @@ class Game
 		@oddf
 	end
 	
-	def getCriador
-		@criador
+	def getSeguidores
+		@seguidores
 	end
 	
 	#SETS
 	def setData(data)
 		@data=data
+		
 	end
 	
 	def setCasa(casa)
@@ -74,5 +81,12 @@ class Game
 	def to_s
 		@numero.to_s + " - " + @data.to_s + " - " + @casa.to_s + " odd casa: " + @oddc.to_s + " /odd empate: " + @odde.to_s + " /" + @fora.to_s + " odd fora: " + @oddf.to_s
 	end
-	
+	def terminarJogo
+		changed
+		notify_observers("Jogo Terminado: ",self)
+	end
+	def changeOdd
+		changed
+		notify_observers("Mudança de odd: ",self)
+	end
 end
