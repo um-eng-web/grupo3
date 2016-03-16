@@ -14,6 +14,10 @@ class Game
 	end
 	
 	#GETS
+	def getNumero
+		@numero
+	end
+	
 	def getData
 		@data
 	end
@@ -65,6 +69,10 @@ class Game
 	
 	def setOddf(oddf)
 		@oddf=oddf
+	end
+	
+	def to_s
+		@numero.to_s + " - " + @data.to_s + " - " + @casa.to_s + " odd casa: " + @oddc.to_s + " /odd empate: " + @odde.to_s + " /" + @fora.to_s + " odd fora: " + @oddf.to_s
 	end
 	
 end
