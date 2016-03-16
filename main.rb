@@ -286,7 +286,11 @@ class Main
 		end while ef<0 || ef>$listEquipas.size-1 || ef==ec
 		puts "Odd Fora: "
 		of=gets.to_f
-		novoJogo=Game.new(DateTime.now,$listEquipas.at(ec),$listEquipas.at(ef),oc,of,oe,@utilizador)
+		puts "Introduza a data  : (AAAA-MM-DD)"
+		data=gets.chomp
+		puts "Introduza hora : (HH:MM:SS)"
+		hora=gets.chomp
+		novoJogo=Game.new(DateTime.iso8601(data+"T"+hora+"+00:00"),$listEquipas.at(ec),$listEquipas.at(ef),oc,of,oe,@utilizador)
 		$listJogos.push(novoJogo)
 	end
 	
