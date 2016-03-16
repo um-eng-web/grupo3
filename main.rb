@@ -58,12 +58,13 @@ class Main
 		pass=gets.chomp
 		i=0
 		begin
-			user=listUser.at(i)
-			if user.nome == nome && user.pass ==pass
+			user=@listUser.at(i)
+			if user.getNome == nome && user.getPass ==pass
+				@utilizador=user
 				return true
 			end
 			i+=1
-		end while i<listUser.size
+		end while i<@listUser.size
 		return false
 	end
 	
@@ -205,7 +206,7 @@ class Main
 	def menuUserLog()
 		puts "1)Login"
 		puts "2)Registar"
-		i=gets.chomp
+		i=gets.to_i
 		if i==1
 			f=loginUser()
 			if f==false
@@ -228,17 +229,25 @@ class Main
 		puts "2)Fazer Aposta"
 		puts "3)Ver Apostas"
 		puts "4)Ver Saldo"
+		puts "5)Carregar Saldo"
 		puts "0)sair"
 		
-		i=gets.chomp
+		i=gets.to_i
 		if i==1
 			listarJogos()
+			menuUser()
 		elsif i==2
 			makeBet()
+			menuUser()
 		elsif i==3
 			listarApostas()
+			menuUser()
 		elsif i==4
 			verSaldo()
+			menuUser()
+		elsif i==5
+			carregarSaldo()
+			menuUser()
 		elsif i==0
 			return 0
 		else
@@ -264,7 +273,75 @@ class Main
 		end
 	end
 	
-end
+	end
+
+	def makeBet()
+		t=true
+		i=0
+		begin
+			listarJogos()
+			puts "Escolha o jogo a apostar:"
+			x=gets.to_i
+			begin
+				if @listJogos.at(i).getData()>DateTime.now && @listJogos.at(i).getNumero==x
+					t=false
+					break
+				end
+				i+=1
+			end while i<@listJogos.size
+		end while t
+		a=0
+		begin
+			puts "Apostar em:"
+			puts "1-Casa"
+			puts "0-Empate"
+			puts "2-Fora"
+			a=gets.to_i
+		end while a<0 || a>2
+		val=0
+		begin
+			puts "Quanto apostar:"
+			val=gets.to_f
+		end while @utilizador.getValor<val
+		
+		@utilizador.setValor(@utilizador.getValor-val)
+		lista=@utilizador.getApostas
+		lista.push(Bet.new(@listJogos.at(i),a,val,DateTime.now))
+		@utilizador.setApostas(lista)
+	end
+	
+	def verSaldo()
+		puts @utilizador.getValor
+	end
+	
+	def verSaldo()
+		puts "Saldo: "+@utilizador.getValor.to_s
+	end
+	
+	def carregarSaldo()
+		puts "Quanto carregar:"
+		i=gets.to_f
+		@utilizador.setValor(@utilizador.getValor+i)
+	end
+	
+		def listarApostas()
+		list=@utilizador.getApostas
+		i=0
+		begin
+			puts list.at(i)
+			i+=1
+		end while i<list.size
+	end
+	
+		def listarJogos()
+		i=0
+		begin
+			if @listJogos.at(i).getData()>DateTime.now
+				puts @listJogos.at(i)
+			end
+			i+=1
+		end while i<@listJogos.size
+	end
 
 	m=Main.new
 	m.bookieOrUser()
