@@ -1,12 +1,14 @@
 class Person
 
 	@@count=0
+	
 	def initialize(nome,pass, mail)
 		@numero=@@count
 		@nome=nome
 		@pass=pass
 		@mail=mail
 		@@count+=1
+		@notificacao=Array.new
 	end
 	
 	#GETS
@@ -25,7 +27,9 @@ class Person
 	def getMail
 		@mail
 	end
-	
+	def getNotificacao
+		@notificacao
+	end
 	#SETS
 	def setNome(nome)
 		@nome=nome
@@ -37,6 +41,9 @@ class Person
 	
 	def setMail(mail)
 		@mail=mail
+	end
+	def setNotificacao(noti)
+		@notificacao=noti
 	end
 	
 end
