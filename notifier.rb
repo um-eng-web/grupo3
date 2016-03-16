@@ -6,19 +6,25 @@ class Notifier
 			j=0
 			begin
 				if game.getSeguidores.at(i)==$listBookie.at(j)
-					noti=$listBookie.at(i).getNotificacao
+				
+					noti=$listBookie.at(j).getNotificacao
 					noti.push(txt +game.to_s)
-					$listBookie.at(i).setNotificacao(noti)
+					$listBookie.at(j).setNotificacao(noti)
 				end
 				j+=1
 			end while j<$listBookie.size
 			j=0
+			
 			begin
-				if game.getSeguidores.at(i)==$listUser.at(j)
-					noti=$listUser.at(i).getNotificacao
+				
+				if game.getSeguidores.at(i).getNumero==$listUser.at(j).getNumero
+				
+					noti=$listUser.at(j).getNotificacao
 					noti.push(txt+game.to_s)
-					$listUser.at(i).setNotificacao(noti)
+					$listUser.at(j).setNotificacao(noti)
+				
 				end
+				
 				j+=1
 			end while j<$listUser.size
 			i+=1

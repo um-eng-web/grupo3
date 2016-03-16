@@ -101,7 +101,7 @@ class Main
 			verNotificacoes()
 			menuBookie()
 		elsif i==0
-			return 0
+			bookieOrUser()
 		else
 			menuBookie()
 		end
@@ -240,7 +240,7 @@ class Main
 				end
 				i+=1
 			end while i<$listJogos.size
-			puts "Escolha o jogo a terminar:"
+			puts "Escolha o jogo a mudar:"
 			x=gets.to_i
 			i=0
 			begin
@@ -322,6 +322,7 @@ class Main
 		puts "3)Ver Apostas"
 		puts "4)Ver Saldo"
 		puts "5)Carregar Saldo"
+		puts "6)Ver Notificações"
 		puts "0)sair"
 		
 		i=gets.to_i
@@ -340,8 +341,12 @@ class Main
 		elsif i==5
 			carregarSaldo()
 			menuUser()
+			elsif i==6
+			verNotificacoes()
+			menuUser()
 		elsif i==0
-			return 0
+			
+			bookieOrUser()
 		else
 			menuUser()
 		end
@@ -383,6 +388,7 @@ class Main
 		jogo=$listJogos.at(i).getSeguidores
 		jogo.push(@utilizador)
 		$listJogos.at(i).setSeguidores(jogo)
+		puts $listJogos.at(i).getSeguidores.size
 	
 	end
 	

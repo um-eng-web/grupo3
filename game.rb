@@ -78,6 +78,9 @@ class Game
 		@oddf=oddf
 	end
 	
+	def setSeguidores(seg)
+		@seguidores=seg
+	end
 	def to_s
 		@numero.to_s + " - " + @data.to_s + " - " + @casa.to_s + " odd casa: " + @oddc.to_s + " /odd empate: " + @odde.to_s + " /" + @fora.to_s + " odd fora: " + @oddf.to_s
 	end
