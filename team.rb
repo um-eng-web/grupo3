@@ -13,5 +13,7 @@ class User
 	def setNome(nome)
 		@nome=nome
 	end
-	
+	def to_s
+		"Nome: " + @nome
+	end
 end

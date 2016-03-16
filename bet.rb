@@ -32,5 +32,7 @@ class Bet
 	def setData(data)
 		@data=data
 	end
-	
+		def to_s
+		"Jogo:" + @game.to_s + "\nPrevisão: " + @previsto.to_s + " Valor: " + @valor.to_s + "\nData: " + @data.to_s
+	end
 end
